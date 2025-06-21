@@ -4,10 +4,7 @@ use flight\Engine;
 use flight\database\PdoWrapper;
 use flight\debug\database\PdoQueryCapture;
 use Tracy\Debugger;
-use app\models\UserModel;
-use app\models\DepotModel;
-use app\models\AdminModel;
-use app\models\ListModel;
+use app\models\LoginModel;
 
 
 /** 
@@ -33,18 +30,7 @@ use app\models\ListModel;
 // $app->register('redis', Redis::class, [ $config['redis']['host'], $config['redis']['port'] ]);
 
 
-// Flight::map('UserModel', function () {
-//     return new UserModel(Flight::db());
-// });
+Flight::map('LoginModel', function () {
+    return new LoginModel(Flight::db());
+});
 
-// Flight::map('DepotModel', function () {
-//     return new DepotModel(Flight::db());
-// });
-
-// Flight::map('AdminModel', function () {
-//     return new AdminModel(Flight::db());
-// });
-
-// Flight::map('ListModel', function () {
-//     return new ListModel(Flight::db());
-// });

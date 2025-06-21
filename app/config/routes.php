@@ -1,7 +1,7 @@
 <?php
 
 use app\controllers\DolibarrController;
-use app\controllers\ContactController;
+use app\controllers\LoginController;
 
 use flight\Engine;
 use flight\net\Router;
@@ -18,8 +18,10 @@ use flight\net\Router;
 });*/
 
 $DolibarrController = new DolibarrController();
+$LoginController = new LoginController();
 
-Flight::route('/status', [$DolibarrController, 'dolibarr'] );
+Flight::route('', [$LoginController, 'redirectLogin'] );
+Flight::route('POST /user/login', [$LoginController, 'login'] );
 
 
 // Flight::start();

@@ -1,6 +1,5 @@
 <?php 
 namespace app\controllers;
-// use '../vendor/autoload.php';
 use app\models\DolibarrModel;
 use Flight;
 
