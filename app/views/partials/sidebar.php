@@ -30,6 +30,11 @@
                 <span class="menu-label">Assigner un ticket</span>
             </a>
         </li>
-
+        <li>
+        <a href="/ticket/list" class="<?= ($currentPage ?? '') === 'list_tickets' ? 'active' : '' ?>">
+            <i class="fas fa-ticket-alt"></i>
+            <span class="menu-label">Liste des tickets</span>
+        </a>
+        </li>
        
 </aside>

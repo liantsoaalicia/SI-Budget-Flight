@@ -37,6 +37,9 @@ Flight::route('/ticket/ajout', [$TicketController, 'redirectForm'] );
 Flight::route('POST /ticket/assign/', [$TicketController, 'assignAgentToTicket']);
 Flight::route('/ticket/assign', [$TicketController, 'showAssignmentList']);
 
+Flight::route('/ticket/list', [$TicketController, 'listAllWithStatusForm']);
+Flight::route('POST /ticket/status/update', [$TicketController, 'updateStatus']);
+
 Flight::route('/agent/form', [$AgentController, 'showAddForm']);
 Flight::route('POST /agent/add', [$AgentController, 'ajout']);
 

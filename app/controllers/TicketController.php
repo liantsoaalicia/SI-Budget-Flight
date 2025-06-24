@@ -3,6 +3,7 @@ namespace app\controllers;
 use app\models\ClientModel;
 use app\models\TicketModel;
 use app\models\AgentModel;
+use app\constants\TicketStatus;
 use Flight;
 
 class TicketController {
@@ -97,6 +98,52 @@ class TicketController {
         Flight::redirect('/ticket/assign');
     }
 
+    public function listAllWithStatusForm() {
+        $ticketModel = new TicketModel();
+        $tickets = $ticketModel->listTickets()['data'];
 
+        Flight::render('template.php', [
+            'pageTitle' => 'Liste des tickets',
+            'view' => 'ticket/list_status',
+            'tickets' => $tickets,
+            'statuses' => TicketStatus::all(),
+            'currentPage' => 'list_tickets'
+        ]);
+    }
+    
+    public function updateStatus() {
+        $ticketId = $_POST['ticket_id'];
+        $newStatus = (int) $_POST['status'];
+        echo "Updating ticket ID: $ticketId to status: $newStatus"; // Debug output
+        $ticketModel = new TicketModel();
+        $result = $ticketModel->updateTicket($ticketId, [
+            'status' => $newStatus
+        ]);
+        //var_dump($result); // Debug output
+        if ($result['status'] === 200 || $result['status'] === 201) {
+            Flight::redirect('/ticket/list');
+        } else {
+            Flight::json(['error' => 'Erreur lors de la mise à jour'], 500);
+        }
+    }
+
+    public function autoCloseOldTickets() {
+        $ticketModel = new TicketModel();
+        $tickets = $ticketModel->listTickets()['data'];
+
+        foreach ($tickets as $ticket) {
+            $lastActivity = strtotime($ticket['date_last_msg_sent'] ?? $ticket['datec']);
+            if (
+                $ticket['status'] != TicketStatus::CLOSED &&
+                $lastActivity < strtotime('-5 days')
+            ) {
+                $ticketModel->updateTicket($ticket['id'], [
+                    'status' => TicketStatus::CLOSED
+                ]);
+            }
+        }
+
+        echo "Tickets auto-closed.";
+    }
     
 }

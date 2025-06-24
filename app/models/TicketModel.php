@@ -5,6 +5,11 @@ use PDO;
 
 class TicketModel extends AbstractDolibarrModel {
 
+    const STATUS_OPEN         = 0;
+    const STATUS_IN_PROGRESS  = 1;
+    const STATUS_RESOLVED     = 2;
+    const STATUS_CLOSED       = 3;
+
     public function createTicket($ticketData) {
         error_log("Données envoyées à l'API: " . json_encode($ticketData));
         $response = $this->makeRequest('POST', 'tickets', $ticketData);
