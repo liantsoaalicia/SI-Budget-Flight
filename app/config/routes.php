@@ -3,6 +3,7 @@
 use app\controllers\DolibarrController;
 use app\controllers\LoginController;
 use app\controllers\ClientController;
+use app\controllers\TicketController;
 
 use flight\Engine;
 use flight\net\Router;
@@ -21,11 +22,15 @@ use flight\net\Router;
 $DolibarrController = new DolibarrController();
 $LoginController = new LoginController();
 $ClientController = new ClientController();
+$TicketController = new TicketController();
 
 Flight::route('', [$LoginController, 'redirectLogin'] );
 Flight::route('POST /user/login', [$LoginController, 'login'] );
 Flight::route('/client/redirect', [$ClientController, 'redirectClient']);
 Flight::route('POST /client/ajout', [$ClientController, 'ajout'] );
+Flight::route('POST /ticket/ajout', [$TicketController, 'ajout'] );
+Flight::route('/ticket/redirect', [$TicketController, 'redirectForm'] );
+Flight::route('/ticket/ajout', [$TicketController, 'redirectForm'] );
 
 // Flight::start();
 //$router->get('/', \app\controllers\WelcomeController::class.'->home'); 

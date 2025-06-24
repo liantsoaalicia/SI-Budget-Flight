@@ -16,7 +16,7 @@ class ClientController {
             'pageTitle' => 'Ajout client',
             'view' => 'client/form',
             'currentPage' => 'ajout_client',
-            'sidebarCollapsed' => false 
+            'sidebarCollapsed' => false,
         ]);
     }
     

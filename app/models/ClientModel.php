@@ -5,8 +5,8 @@ use PDO;
 
 class ClientModel extends AbstractDolibarrModel {
 
-    public function createClient($contactData) {
-        return $this->makeRequest('POST', 'thirdparties', $contactData);
+    public function createClient($clientData) {
+        return $this->makeRequest('POST', 'thirdparties', $clientData);
     }
 
     public function deleteClient($id) {
@@ -17,7 +17,15 @@ class ClientModel extends AbstractDolibarrModel {
         return $this->makeRequest('GET', 'thirdparties/' . $id);
     }
 
-    public function updateClient($id, $contactData) {
-        return $this->makeRequest('PUT', 'thirdparties/' . $id, $contactData);
+    public function updateClient($id, $clientData) {
+        return $this->makeRequest('PUT', 'thirdparties/' . $id, $clientData);
+    }
+
+    public function listClients($filters = []) {
+        $endpoint = 'thirdparties';
+        if (!empty($filters)) {
+            $endpoint .= '?' . http_build_query($filters);
+        }
+        return $this->makeRequest('GET', $endpoint);
     }
 }

@@ -12,7 +12,7 @@
         </li>
 
         <li>
-            <a href="#" class="<?= ($currentPage ?? '') === '' ? 'active' : '' ?>">
+            <a href="/ticket/redirect" class="<?= ($currentPage ?? '') === 'ajout_ticket' ? 'active' : '' ?>">
                 <i class="fas fa-project-diagram"></i>
                 <span class="menu-label">Creation de ticket</span>
             </a>

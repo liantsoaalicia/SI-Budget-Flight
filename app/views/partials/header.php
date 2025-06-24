@@ -18,7 +18,7 @@
                 </a>
             </li>
             <li>
-                <a href="#e" class="<?= ($currentPage ?? '') === 'profile' ? 'active' : '' ?>">
+                <a href="#" class="<?= ($currentPage ?? '') === 'profile' ? 'active' : '' ?>">
                     <i class="fas fa-user"></i>
                     <span class="nav-label">Mon Profil</span>
                 </a>
