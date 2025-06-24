@@ -34,9 +34,12 @@ Flight::route('POST /client/ajout', [$ClientController, 'ajout'] );
 Flight::route('POST /ticket/ajout', [$TicketController, 'ajout'] );
 Flight::route('/ticket/redirect', [$TicketController, 'redirectForm'] );
 Flight::route('/ticket/ajout', [$TicketController, 'redirectForm'] );
+Flight::route('POST /ticket/assign/', [$TicketController, 'assignAgentToTicket']);
+Flight::route('/ticket/assign', [$TicketController, 'showAssignmentList']);
 
 Flight::route('/agent/form', [$AgentController, 'showAddForm']);
 Flight::route('POST /agent/add', [$AgentController, 'ajout']);
+
 
 //Flight::start();
 //$router->get('/', \app\controllers\WelcomeController::class.'->home'); 

@@ -24,5 +24,12 @@
                 <span class="menu-label">Ajout Agent</span>
             </a>
         </li>
+        <li>
+            <a href="/ticket/assign" class="<?= ($currentPage ?? '') === 'assign_ticket' ? 'active' : '' ?>">
+                <i class="fas fa-user-check"></i>
+                <span class="menu-label">Assigner un ticket</span>
+            </a>
+        </li>
+
        
 </aside>

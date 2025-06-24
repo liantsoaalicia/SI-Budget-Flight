@@ -2,6 +2,7 @@
 namespace app\controllers;
 use app\models\ClientModel;
 use app\models\TicketModel;
+use app\models\AgentModel;
 use Flight;
 
 class TicketController {
@@ -54,5 +55,48 @@ class TicketController {
             Flight::redirect('/ticket/ajout?success=true');
         }
     }
+
+    public function showAssignmentList() {
+        $ticketModel = new TicketModel();
+        $agentModel = new AgentModel();
+
+        $ticketsResponse = $ticketModel->listTickets();
+        $agentsResponse = $agentModel->listAgents();
+
+        // Filter tickets with no assigned user
+        $tickets = array_filter($ticketsResponse['data'], function($ticket) {
+            return empty($ticket['fk_user_assign']); // only unassigned tickets
+        });
+
+        $agents = $agentsResponse['data'];
+
+        Flight::render('template.php', [
+            'pageTitle' => 'Assigner un ticket',
+            'view' => 'ticket/assign_list',
+            'tickets' => $tickets,
+            'agents' => $agents,
+            'currentPage' => 'assign_ticket'
+        ]);
+    }
+    
+    public function assignAgentToTicket() {
+        $ticketId = $_POST['ticket_id'];
+        $agentId = $_POST['agent_id'];
+
+        $ticketModel = new TicketModel();
+        $result = $ticketModel->updateTicket($ticketId, ['fk_user_assign' => $agentId]);
+
+        // Debug output for development (comment out in production)
+        // echo "<pre>"; var_dump($result); exit;
+
+        if ($result['status'] !== 200 && $result['status'] !== 201) {
+            Flight::json(['error' => 'Erreur lors de l\'assignation du ticket'], 500);
+            return;
+        }
+
+        Flight::redirect('/ticket/assign');
+    }
+
+
     
 }
