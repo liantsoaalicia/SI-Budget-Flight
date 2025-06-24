@@ -13,7 +13,7 @@ class LoginController {
     }
 
     public function redirectLogin() {
-        Flight::render('login/form');
+        Flight::render('pages/login/form');
     }
 
     public function login() {
