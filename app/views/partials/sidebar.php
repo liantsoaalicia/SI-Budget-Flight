@@ -17,5 +17,12 @@
                 <span class="menu-label">Creation de ticket</span>
             </a>
         </li>
+
+        <li>
+            <a href="/agent/form" class="<?= ($currentPage ?? '') === 'ajout_client' ? 'active' : '' ?>">
+                <i class="fas fa-project-diagram"></i>
+                <span class="menu-label">Ajout Agent</span>
+            </a>
+        </li>
        
 </aside>
