@@ -42,8 +42,51 @@ class LoginModel extends AbstractDolibarrModel {
                 'departement' => ['departement_id' => $user['departement_id'], 'departement_nom' => $user['departement_nom']]
             ];
 
-        } catch(PDOException $e) {
+        } catch(\PDOException $e) {
             return ['success' => false, 'message' => 'Erreur de connexion'];
+        }
+    }
+
+     public function clientLogin($email, $password) {
+        try {
+            $email = trim($email);
+            
+            // Recherche du client dans la table des tiers (thirdparties)
+            $sql = "
+                SELECT s.rowid, s.nom, s.email, s.pass_crypted, s.code_client
+                FROM llx_societe s
+                WHERE s.email = ? AND s.client = 1 AND s.status = 1
+            ";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(1, $email, \PDO::PARAM_STR);
+            $stmt->execute();
+            $client = $stmt->fetch(\PDO::FETCH_ASSOC);
+            
+            if (!$client) {
+                return ['success' => false, 'message' => 'Client introuvable'];
+            }
+            
+            // Si pas de mot de passe défini, utiliser l'email comme mot de passe temporaire
+            // ou implémenter votre logique de vérification
+            $storedPassword = $client['pass_crypted'] ?: md5($email);
+            
+            if (!$this->checkPassword($password, $storedPassword)) {
+                return ['success' => false, 'message' => 'Mot de passe incorrect'];
+            }
+
+            return [
+                'success' => true,
+                'client' => [
+                    'client_id' => $client['rowid'],
+                    'client_nom' => $client['nom'],
+                    'client_email' => $client['email'],
+                    'code_client' => $client['code_client']
+                ]
+            ];
+
+        } catch(\PDOException $e) {
+            return ['success' => false, 'message' => 'Erreur de connexion: ' . $e->getMessage()];
         }
     }
 }

@@ -36,5 +36,36 @@ class LoginController {
             }
         }
     }
+     public function clientLogin() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = $_POST['client_email'];
+            $mdp = $_POST['client_password'];
 
+            $result = Flight::LoginModel()->clientLogin($email, $mdp);
+            if($result['success']) {
+                $_SESSION['client_id'] = $result['client']['client_id'];
+                $_SESSION['client_nom'] = $result['client']['client_nom'];
+                $_SESSION['client_email'] = $result['client']['client_email'];
+                $_SESSION['user_type'] = 'client'; // Identifier le type d'utilisateur
+                
+                // Rediriger vers l'interface client
+                Flight::render('template.php', [
+                    'pageTitle' => 'Espace Client',
+                    'view' => 'client/dashboard',
+                    'currentPage' => 'client_dashboard',
+                    'sidebarCollapsed' => false
+                ]);
+            } else {
+                // Gérer l'erreur de connexion
+                Flight::render('pages/login/form', [
+                    'error' => $result['message']
+                ]);
+            }
+        }
+    }
+
+    public function logout() {
+        session_destroy();
+        Flight::redirect('/');
+    }
 }

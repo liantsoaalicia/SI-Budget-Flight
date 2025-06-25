@@ -32,7 +32,5 @@ class ClientController {
             $result = $this->clientModel->createClient($client);
             Flight::redirect('/client/redirect');
         }
-    }
-
-    
+    }   
 }
